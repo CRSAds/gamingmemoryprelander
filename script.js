@@ -4,7 +4,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const affId = urlParams.get("aff_id") || "1000";
   const offerId = urlParams.get("offer_id") || "9999";
   const subId = urlParams.get("sub_id") || "8888";
-  const transaction_id = urlParams.get("transaction_id") || crypto.randomUUID();
+
+  function generateUUID() {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+      return window.crypto.randomUUID();
+    }
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
+  }
+
+  const transaction_id = urlParams.get("transaction_id") || generateUUID();
 
   async function registerVisit() {
     const stored = localStorage.getItem("internalVisitId");
@@ -140,12 +152,16 @@ document.addEventListener("DOMContentLoaded", function () {
             gameName: "MemoryGame"
           })
         });
+
         const data = await res.json();
 
-        if (data.callId && data.returnUrl) {
+        if (res.ok && data.callId && data.returnUrl) {
           window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
+        } else if (data.error) {
+          errorDisplay.innerText = data.error;
         } else {
           errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
+          console.warn("Unexpected response", res.status, data);
         }
       } catch (err) {
         errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
