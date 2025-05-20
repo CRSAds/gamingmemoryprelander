@@ -6,6 +6,45 @@ document.addEventListener("DOMContentLoaded", function () {
   const subId = urlParams.get("sub_id") || "8888";
   const transaction_id = urlParams.get("transaction_id") || crypto.randomUUID();
 
+  async function registerVisit() {
+    const stored = localStorage.getItem("internalVisitId");
+    if (stored) {
+      return stored;
+    }
+
+    try {
+      const res = await fetch(
+        "https://cdn.909support.com/NL/4.1/assets/php/register_visit.php",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            clickId: transaction_id,
+            affId,
+            offerId,
+            subId,
+            subId2: subId,
+          }),
+        }
+      );
+      const data = await res.json();
+
+      if (data.internalVisitId) {
+        localStorage.setItem("internalVisitId", data.internalVisitId);
+        localStorage.setItem("transaction_id", transaction_id);
+        localStorage.setItem("affId", affId);
+        localStorage.setItem("offerId", offerId);
+        localStorage.setItem("subId", subId);
+        return data.internalVisitId;
+      }
+    } catch (err) {
+      console.error("Visit registration failed", err);
+    }
+    return null;
+  }
+
+  const visitPromise = registerVisit();
+
   const desktopBtn = document.getElementById("submitPinButton");
   const desktopInput1 = document.getElementById("input1");
   const desktopInput2 = document.getElementById("input2");
@@ -23,25 +62,14 @@ document.addEventListener("DOMContentLoaded", function () {
       mobileContainer.style.display = "block";
 
       try {
-        const visitRes = await fetch("https://cdn.909support.com/NL/4.1/assets/php/register_visit.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            clickId: transaction_id,
-            affId,
-            offerId,
-            subId,
-            subId2: subId,
-          }),
-        });
-        const visitData = await visitRes.json();
+        const internalVisitId = await visitPromise;
 
         const pinRes = await fetch("https://cdn.909support.com/NL/4.1/stage/assets/php/request_pin.php", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
             clickId: transaction_id,
-            internalVisitId: visitData.internalVisitId,
+            internalVisitId,
           }),
         });
         const pinData = await pinRes.json();
@@ -106,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
             affId,
             offerId,
             subId,
-            internalVisitId: transaction_id,
+            internalVisitId: localStorage.getItem("internalVisitId"),
             clickId: transaction_id,
             pin,
             gameName: "MemoryGame"
