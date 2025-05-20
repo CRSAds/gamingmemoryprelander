@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VIP Ebike Kans</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- DESKTOP sectie -->
+    <div class="ivr-section-desktop only-desktop">
+      <p><strong>Bel 0906 - 0814 en voer jouw VIP-code in:</strong></p>
+      <div class="inputGrid">
+        <input type="text" class="pin-input" id="input1" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        <input type="text" class="pin-input" id="input2" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+        <input type="text" class="pin-input" id="input3" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+      </div>
+      <input type="hidden" id="pinCode" />
+      <div id="pin-error" class="error-input"></div>
+      <button id="submitPinButton" class="cta-button">Bevestig je code</button>
+    </div>
+
+    <!-- MOBIEL sectie -->
+    <div class="ivr-section-mobile only-mobile">
+      <button id="show-pin-btn-mobile" class="cta-button">Toon mijn VIP-code</button>
+      <div id="pin-container-mobile" style="display: none;">
+        <p class="ivr-instructie only-mobile">
+          <strong>Dit is jouw code, bel de hotline via de button om je code in te voeren</strong>
+        </p>
+        <div id="pin-code-display-mobile" class="pin-box">000</div>
+        <a href="tel:09060814" class="mobile-call-btn only-mobile">📞 Klik hier en bel direct</a>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
