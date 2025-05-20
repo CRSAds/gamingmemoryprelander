@@ -1,0 +1,76 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+  padding: 24px;
+  margin: 0;
+}
+
+.cta-button,
+.mobile-call-btn {
+  background-color: #fe882b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 999px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.mobile-call-btn:hover,
+.cta-button:hover {
+  background-color: #e37015;
+}
+
+.pin-box {
+  background-color: #f5c9ff;
+  font-size: 48px;
+  font-weight: 800;
+  padding: 16px 32px;
+  border-radius: 16px;
+  display: inline-block;
+  min-width: 160px;
+  text-align: center;
+  margin: 12px auto;
+}
+
+.inputGrid {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+.pin-input {
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+}
+
+.error-input {
+  color: red;
+  margin-top: 8px;
+}
+
+.only-mobile {
+  display: none;
+}
+.only-desktop {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .only-mobile {
+    display: block;
+  }
+  .only-desktop {
+    display: none;
+  }
+}
