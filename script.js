@@ -116,19 +116,21 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("SubmitPin HTTP status:", res.status);
         console.log("SubmitPin response body:", data);
 
-        if (data.callId) {
-          const redirectUrl = new URL("https://play.909skillgames.com/memory");
-          redirectUrl.searchParams.set("call_id", data.callId);
-          redirectUrl.searchParams.set("t_id", localStorage.getItem("transaction_id") || localStorage.getItem("t_id"));
-          redirectUrl.searchParams.set("aff_id", localStorage.getItem("aff_id"));
-          redirectUrl.searchParams.set("offer_id", localStorage.getItem("offer_id"));
-          redirectUrl.searchParams.set("sub_id", localStorage.getItem("sub_id"));
-          redirectUrl.searchParams.set("f_2_title", localStorage.getItem("f_2_title"));
-          redirectUrl.searchParams.set("f_3_firstname", localStorage.getItem("f_3_firstname"));
-          redirectUrl.searchParams.set("f_4_lastname", localStorage.getItem("f_4_lastname"));
-          redirectUrl.searchParams.set("f_1_email", localStorage.getItem("f_1_email"));
+      if (data.callId) {
+  const callId = data.callId;
+  const t_id = localStorage.getItem('transaction_id') || localStorage.getItem('t_id') || '';
+  const aff_id = localStorage.getItem('aff_id') || '';
+  const offer_id = localStorage.getItem('offer_id') || '';
+  const sub_id = localStorage.getItem('sub_id') || '';
+  const f_2_title = localStorage.getItem('f_2_title') || '';
+  const f_3_firstname = localStorage.getItem('f_3_firstname') || '';
+  const f_4_lastname = localStorage.getItem('f_4_lastname') || '';
+  const f_1_email = localStorage.getItem('f_1_email') || '';
 
-          window.location.href = redirectUrl.toString();
+  const finalUrl = `https://play.909skillgames.com/memory?call_id=${encodeURIComponent(callId)}&t_id=${encodeURIComponent(t_id)}&aff_id=${encodeURIComponent(aff_id)}&offer_id=${encodeURIComponent(offer_id)}&sub_id=${encodeURIComponent(sub_id)}&f_2_title=${encodeURIComponent(f_2_title)}&f_3_firstname=${encodeURIComponent(f_3_firstname)}&f_4_lastname=${encodeURIComponent(f_4_lastname)}&f_1_email=${encodeURIComponent(f_1_email)}`;
+
+  window.location.href = finalUrl;
+}
         } else {
           if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
         }
