@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
 
-  // 1. Identifiers instellen (t_id als centrale ID)
+  const affId = urlParams.get("aff_id") || "1000";
+  const offerId = urlParams.get("offer_id") || "9999";
+  const subId = urlParams.get("sub_id") || "8888";
+
   function getTransactionId() {
     if (crypto && typeof crypto.randomUUID === "function") {
       return crypto.randomUUID();
@@ -13,39 +16,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  const t_id = urlParams.get("t_id") || localStorage.getItem("t_id") || getTransactionId();
-  localStorage.setItem("t_id", t_id);
+  const t_id = urlParams.get("t_id") || getTransactionId();
 
-  const affId = urlParams.get("aff_id") || localStorage.getItem("aff_id") || "1000";
-  const offerId = urlParams.get("offer_id") || localStorage.getItem("offer_id") || "9999";
-  const subId = urlParams.get("sub_id") || localStorage.getItem("sub_id") || "8888";
-
-  localStorage.setItem("aff_id", affId);
-  localStorage.setItem("offer_id", offerId);
-  localStorage.setItem("sub_id", subId);
-
-  // 2. Registreer bezoek
   async function registerVisit() {
     const stored = localStorage.getItem("internalVisitId");
-    if (stored) return stored;
+    if (stored) {
+      return stored;
+    }
 
     try {
-      const res = await fetch("https://cdn.909support.com/NL/4.1/assets/php/register_visit.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          clickId: t_id,
-          affId,
-          offerId,
-          subId,
-          subId2: subId
-        }),
-      });
-
+      const res = await fetch(
+        "https://cdn.909support.com/NL/4.1/assets/php/register_visit.php",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            clickId: t_id,
+            affId,
+            offerId,
+            subId,
+            subId2: subId,
+          }),
+        }
+      );
       const data = await res.json();
-      console.log("SubmitPin response:", data); // 👈 voeg deze regel toe
+
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
+        localStorage.setItem("t_id", t_id);
+        localStorage.setItem("affId", affId);
+        localStorage.setItem("offerId", offerId);
+        localStorage.setItem("subId", subId);
         return data.internalVisitId;
       }
     } catch (err) {
@@ -56,7 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const visitPromise = registerVisit();
 
-  // 3. Elementen ophalen
   const desktopBtn = document.getElementById("submitPinButton");
   const desktopInput1 = document.getElementById("input1");
   const desktopInput2 = document.getElementById("input2");
@@ -68,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const mobileContainer = document.getElementById("pin-container-mobile");
   const mobileBox = document.getElementById("pin-code-display-mobile");
 
-  // 4. Mobiele PIN ophalen
   if (mobileBtn) {
     mobileBtn.addEventListener("click", async function () {
       mobileBtn.style.display = "none";
@@ -85,8 +84,8 @@ document.addEventListener("DOMContentLoaded", function () {
             internalVisitId,
           }),
         });
-
         const pinData = await pinRes.json();
+
         if (pinData.pincode) {
           animatePinReveal(mobileBox, pinData.pincode);
         }
@@ -96,7 +95,23 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 5. PIN invoer logica
+  function animatePinReveal(el, finalPin) {
+    let frame = 0;
+    const duration = 1000;
+    const interval = 80;
+    const totalFrames = duration / interval;
+
+    const animator = setInterval(() => {
+      if (frame < totalFrames) {
+        el.innerText = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
+        frame++;
+      } else {
+        clearInterval(animator);
+        el.innerText = finalPin;
+      }
+    }, interval);
+  }
+
   const desktopInputs = [desktopInput1, desktopInput2, desktopInput3];
 
   desktopInputs.forEach((input, i, arr) => {
@@ -108,6 +123,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updatePinValue();
       });
+
+      input.addEventListener("focus", () => input.setAttribute("data-placeholder", input.placeholder));
+      input.addEventListener("blur", () => input.setAttribute("placeholder", input.getAttribute("data-placeholder")));
     }
   });
 
@@ -118,7 +136,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // 6. PIN versturen
   if (desktopBtn && desktopCombined) {
     desktopBtn.addEventListener("click", async function () {
       const pin = desktopCombined.value;
@@ -141,28 +158,10 @@ document.addEventListener("DOMContentLoaded", function () {
             gameName: "MemoryGame"
           })
         });
-
         const data = await res.json();
 
-        if (data.returnUrl) {
-          const query = new URLSearchParams({
-            call_id: data.callId,
-            t_id: localStorage.getItem("t_id"),
-            aff_id: localStorage.getItem("aff_id"),
-            offer_id: localStorage.getItem("offer_id"),
-            sub_id: localStorage.getItem("sub_id"),
-            f_2_title: localStorage.getItem("f_2_title") || '',
-            f_3_firstname: localStorage.getItem("f_3_firstname") || '',
-            f_4_lastname: localStorage.getItem("f_4_lastname") || '',
-            f_1_email: localStorage.getItem("f_1_email") || ''
-          });
-
-          window.open(`${data.returnUrl}?${query.toString()}`, '_blank');
-
-          setTimeout(() => {
-            const closeBtn = document.querySelector('.close-icon');
-            if (closeBtn) closeBtn.click();
-          }, 7500);
+        if (data.callId && data.returnUrl) {
+          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${t_id}`;
         } else {
           if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
         }
@@ -171,23 +170,5 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error(err);
       }
     });
-  }
-
-  // 7. PIN animatie mobiel
-  function animatePinReveal(el, finalPin) {
-    let frame = 0;
-    const duration = 1000;
-    const interval = 80;
-    const totalFrames = duration / interval;
-
-    const animator = setInterval(() => {
-      if (frame < totalFrames) {
-        el.innerText = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
-        frame++;
-      } else {
-        clearInterval(animator);
-        el.innerText = finalPin;
-      }
-    }, interval);
   }
 });
