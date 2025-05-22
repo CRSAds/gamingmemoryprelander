@@ -21,7 +21,7 @@ document.getElementById('lead-form').addEventListener('submit', async function (
   };
 
   try {
-    const response = await fetch('/api/submit', {
+    const response = await fetch('https://gamingmemoryprelander.vercel.app/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
