@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const transaction_id = urlParams.get("t_id") || getTransactionId();
 
-  // Zet deze direct bij het starten van de pagina
+  // Opslaan voor backend logging
   localStorage.setItem("gameName", "MemoryGame");
-  localStorage.setItem("hero-image", "hero-placeholder.png");
+  localStorage.setItem("hero-image", "hero-banner-placeholder.png");
 
   async function registerVisit() {
     const stored = localStorage.getItem("internalVisitId");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
-        localStorage.setItem("t_id", transaction_id);
+        localStorage.setItem("transaction_id", transaction_id);
         localStorage.setItem("affId", affId);
         localStorage.setItem("offerId", offerId);
         localStorage.setItem("subId", subId);
@@ -68,54 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const desktopCombined = document.getElementById("pinCode");
   const errorDisplay = document.getElementById("pin-error");
 
-  const mobileBtn = document.getElementById("show-pin-btn-mobile");
-  const mobileContainer = document.getElementById("pin-container-mobile");
-  const mobileBox = document.getElementById("pin-code-display-mobile");
-
-  if (mobileBtn) {
-    mobileBtn.addEventListener("click", async function () {
-      mobileBtn.style.display = "none";
-      mobileContainer.style.display = "block";
-
-      try {
-        const internalVisitId = await visitPromise;
-
-        const pinRes = await fetch("https://cdn.909support.com/NL/4.1/stage/assets/php/request_pin.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            clickId: transaction_id,
-            internalVisitId,
-          }),
-        });
-        const pinData = await pinRes.json();
-
-        if (pinData.pincode) {
-          animatePinReveal(mobileBox, pinData.pincode);
-        }
-      } catch (err) {
-        console.warn("Mobiele IVR mislukt:", err);
-      }
-    });
-  }
-
-  function animatePinReveal(el, finalPin) {
-    let frame = 0;
-    const duration = 1000;
-    const interval = 80;
-    const totalFrames = duration / interval;
-
-    const animator = setInterval(() => {
-      if (frame < totalFrames) {
-        el.innerText = Math.floor(Math.random() * 1000).toString().padStart(3, "0");
-        frame++;
-      } else {
-        clearInterval(animator);
-        el.innerText = finalPin;
-      }
-    }, interval);
-  }
-
   const desktopInputs = [desktopInput1, desktopInput2, desktopInput3];
 
   desktopInputs.forEach((input, i, arr) => {
@@ -127,9 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         updatePinValue();
       });
-
-      input.addEventListener("focus", () => input.setAttribute("data-placeholder", input.placeholder));
-      input.addEventListener("blur", () => input.setAttribute("placeholder", input.getAttribute("data-placeholder")));
     }
   });
 
@@ -159,20 +108,27 @@ document.addEventListener("DOMContentLoaded", function () {
             internalVisitId: localStorage.getItem("internalVisitId"),
             clickId: transaction_id,
             pin,
-            gameName: localStorage.getItem("gameName") || "MemoryGame"
+            gameName: localStorage.getItem("gameName")
           })
         });
-        const data = await res.json();
-console.log("SubmitPin response:", data);
 
-if (data.callId && data.returnUrl) {
-  window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
-} else {
-  if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
-}
+        console.log("SubmitPin HTTP status:", res.status);
+
+        const data = await res.json().catch(err => {
+          console.error("Response is geen JSON:", err);
+          return {};
+        });
+
+        console.log("SubmitPin response body:", data);
+
+        if (res.ok && data.callId && data.returnUrl) {
+          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
+        } else {
+          if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
+        }
       } catch (err) {
         if (errorDisplay) errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
-        console.error(err);
+        console.error("SubmitPin error:", err);
       }
     });
   }
