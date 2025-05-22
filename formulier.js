@@ -1,5 +1,9 @@
-document.getElementById('lead-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('lead-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
   const form = e.target;
   const urlParams = new URLSearchParams(window.location.search);
