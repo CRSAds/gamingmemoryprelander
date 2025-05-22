@@ -42,7 +42,7 @@ document.getElementById('lead-form').addEventListener('submit', async function (
       });
 
       const currentUrl = new URL(window.location.href);
-      currentUrl.pathname = currentUrl.pathname.replace("formulier", "bedankt");
+      currentUrl.pathname = currentUrl.pathname.replace("formulier", "bedankt-en-betaling-ideal");
       currentUrl.search = redirectParams.toString();
       window.location.href = currentUrl.toString();
     } else {
