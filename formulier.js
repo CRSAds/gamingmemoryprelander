@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
 
     const t_id = urlParams.get('t_id') || crypto.randomUUID();
-    const sub2 = urlParams.get('sub2') || '';
+    const sub_id = urlParams.get('sub_id') || '';
     const aff_id = urlParams.get('aff_id') || '';
     const offer_id = urlParams.get('offer_id') || '';
 
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
       t_id
     };
 
-    // Save for later use in redirect
+    // Opslaan in localStorage voor gebruik op bedankt-pagina
     localStorage.setItem('t_id', t_id);
     localStorage.setItem('aff_id', aff_id);
     localStorage.setItem('offer_id', offer_id);
-    localStorage.setItem('sub_id', sub2);
+    localStorage.setItem('sub_id', sub_id);
     localStorage.setItem('f_2_title', data.gender);
     localStorage.setItem('f_3_firstname', data.firstname);
     localStorage.setItem('f_4_lastname', data.lastname);
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
           lastname: data.lastname,
           gender: data.gender,
           t_id,
-          sub2,
+          sub_id,
           aff_id,
           offer_id
         });
