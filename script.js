@@ -163,12 +163,13 @@ document.addEventListener("DOMContentLoaded", function () {
           })
         });
         const data = await res.json();
+console.log("SubmitPin response:", data);
 
-        if (data.callId && data.returnUrl) {
-          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
-        } else {
-          if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
-        }
+if (data.callId && data.returnUrl) {
+  window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
+} else {
+  if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
+}
       } catch (err) {
         if (errorDisplay) errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
         console.error(err);
