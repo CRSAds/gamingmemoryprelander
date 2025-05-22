@@ -21,7 +21,7 @@ document.getElementById('lead-form').addEventListener('submit', async function (
   };
 
   try {
-    const response = await fetch('https://spelenenwinnen-databowl.vercel.app/api/submit', {
+    const response = await fetch('/api/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -41,9 +41,9 @@ document.getElementById('lead-form').addEventListener('submit', async function (
         offer_id
       });
 
-    const redirectUrl = new URL("https://nl.wincadeaukaarten.com/memory-lead-flow-development/bedankt-en-betaling-ideal");
-redirectUrl.search = redirectParams.toString();
-window.location.href = redirectUrl.toString();
+      const currentPath = window.location.pathname;
+      const newPath = currentPath.replace('formulier', 'bedankt-en-betaling-ideal');
+      window.location.href = `${newPath}?${redirectParams.toString()}`;
     } else {
       alert('Er is iets misgegaan. Probeer het opnieuw.');
       console.error(result);
