@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const transaction_id = urlParams.get("t_id") || getTransactionId();
+  localStorage.setItem("transaction_id", transaction_id);
 
-  // Opslaan voor backend logging
   localStorage.setItem("gameName", "MemoryGame");
   localStorage.setItem("hero-image", "hero-banner-placeholder.png");
 
@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
-        localStorage.setItem("transaction_id", transaction_id);
-        localStorage.setItem("affId", affId);
-        localStorage.setItem("offerId", offerId);
-        localStorage.setItem("subId", subId);
+        localStorage.setItem("t_id", transaction_id);
+        localStorage.setItem("aff_id", affId);
+        localStorage.setItem("offer_id", offerId);
+        localStorage.setItem("sub_id", subId);
         return data.internalVisitId;
       }
     } catch (err) {
@@ -102,33 +102,39 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
-            affId,
-            offerId,
-            subId,
+            affId: localStorage.getItem("aff_id"),
+            offerId: localStorage.getItem("offer_id"),
+            subId: localStorage.getItem("sub_id"),
             internalVisitId: localStorage.getItem("internalVisitId"),
-            clickId: transaction_id,
+            clickId: localStorage.getItem("transaction_id") || localStorage.getItem("t_id"),
             pin,
-            gameName: localStorage.getItem("gameName")
+            gameName: localStorage.getItem("gameName") || "MemoryGame"
           })
         });
 
+        const data = await res.json();
         console.log("SubmitPin HTTP status:", res.status);
-
-        const data = await res.json().catch(err => {
-          console.error("Response is geen JSON:", err);
-          return {};
-        });
-
         console.log("SubmitPin response body:", data);
 
-        if (res.ok && data.callId && data.returnUrl) {
-          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
+        if (data.callId) {
+          const redirectUrl = new URL("https://play.909skillgames.com/memory");
+          redirectUrl.searchParams.set("call_id", data.callId);
+          redirectUrl.searchParams.set("t_id", localStorage.getItem("transaction_id") || localStorage.getItem("t_id"));
+          redirectUrl.searchParams.set("aff_id", localStorage.getItem("aff_id"));
+          redirectUrl.searchParams.set("offer_id", localStorage.getItem("offer_id"));
+          redirectUrl.searchParams.set("sub_id", localStorage.getItem("sub_id"));
+          redirectUrl.searchParams.set("f_2_title", localStorage.getItem("f_2_title"));
+          redirectUrl.searchParams.set("f_3_firstname", localStorage.getItem("f_3_firstname"));
+          redirectUrl.searchParams.set("f_4_lastname", localStorage.getItem("f_4_lastname"));
+          redirectUrl.searchParams.set("f_1_email", localStorage.getItem("f_1_email"));
+
+          window.location.href = redirectUrl.toString();
         } else {
           if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
         }
       } catch (err) {
         if (errorDisplay) errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
-        console.error("SubmitPin error:", err);
+        console.error(err);
       }
     });
   }
