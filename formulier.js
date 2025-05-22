@@ -41,10 +41,8 @@ document.getElementById('lead-form').addEventListener('submit', async function (
         offer_id
       });
 
-const redirectUrl = new URL(window.location.href);
-redirectUrl.pathname = redirectUrl.pathname.replace("formulier.html", "bedankt.html");
-redirectUrl.search = redirectParams.toString();
-window.location.href = redirectUrl.toString();
+const redirectBase = "https://nl.wincadeaukaarten.com/memory-lead-flow-development/bedankt";
+window.location.href = `${redirectBase}?${redirectParams.toString()}`;
       
     } else {
       alert('Er is iets misgegaan. Probeer het opnieuw.');
