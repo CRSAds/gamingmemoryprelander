@@ -112,29 +112,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }, interval);
   }
 
-  [desktopInput1, desktopInput2, desktopInput3].forEach((input, i, arr) => {
-    input.addEventListener("input", () => {
-      errorDisplay.textContent = "";
-      if (input.value.length === input.maxLength && arr[i + 1]) {
-        arr[i + 1].focus();
-      }
-      updatePinValue();
-    });
+  const desktopInputs = [desktopInput1, desktopInput2, desktopInput3];
 
-    input.addEventListener("focus", () => input.setAttribute("data-placeholder", input.placeholder));
-    input.addEventListener("blur", () => input.setAttribute("placeholder", input.getAttribute("data-placeholder")));
+  desktopInputs.forEach((input, i, arr) => {
+    if (input) {
+      input.addEventListener("input", () => {
+        if (errorDisplay) errorDisplay.textContent = "";
+        if (input.value.length === input.maxLength && arr[i + 1]) {
+          arr[i + 1].focus();
+        }
+        updatePinValue();
+      });
+
+      input.addEventListener("focus", () => input.setAttribute("data-placeholder", input.placeholder));
+      input.addEventListener("blur", () => input.setAttribute("placeholder", input.getAttribute("data-placeholder")));
+    }
   });
 
   function updatePinValue() {
-    const val = `${desktopInput1.value}${desktopInput2.value}${desktopInput3.value}`;
-    desktopCombined.value = val;
+    if (desktopCombined) {
+      const val = `${desktopInput1?.value || ""}${desktopInput2?.value || ""}${desktopInput3?.value || ""}`;
+      desktopCombined.value = val;
+    }
   }
 
-  if (desktopBtn) {
+  if (desktopBtn && desktopCombined) {
     desktopBtn.addEventListener("click", async function () {
       const pin = desktopCombined.value;
       if (!/^\d{3}$/.test(pin)) {
-        errorDisplay.innerText = "Vul een geldige 3-cijferige code in.";
+        if (errorDisplay) errorDisplay.innerText = "Vul een geldige 3-cijferige code in.";
         return;
       }
 
@@ -157,10 +163,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (data.callId && data.returnUrl) {
           window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
         } else {
-          errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
+          if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
         }
       } catch (err) {
-        errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
+        if (errorDisplay) errorDisplay.innerText = "Er ging iets mis. Probeer opnieuw.";
         console.error(err);
       }
     });
