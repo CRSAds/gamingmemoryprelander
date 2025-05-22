@@ -41,7 +41,7 @@ document.getElementById('lead-form').addEventListener('submit', async function (
         offer_id
       });
 
-const redirectBase = "https://nl.wincadeaukaarten.com/memory-lead-flow-development/bedankt";
+const redirectBase = "https://nl.wincadeaukaarten.com/memoryspel/bedankt";
 window.location.href = `${redirectBase}?${redirectParams.toString()}`;
       
     } else {
