@@ -38,18 +38,19 @@ body {
 .inputGrid {
   display: flex;
   gap: 12px;
-  margin: 0 0 12px 0;
-  justify-content: flex-start;
+  justify-content: flex-start; /* links uitlijnen */
+  margin-bottom: 16px;
 }
 
 .pin-input {
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
+  font-size: 28px;
   text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  border: 2px solid #8000ff; /* paarse rand */
+  border: 2px solid #8000ff !important; /* paarse rand */
   border-radius: 10px;
+  font-weight: bold;
+  outline: none;
 }
 
 #submitPinButton {
