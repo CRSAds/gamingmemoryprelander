@@ -39,7 +39,7 @@ body {
   display: flex;
   gap: 12px;
   justify-content: flex-start;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .pin-input {
@@ -49,8 +49,9 @@ body {
   flex: 0 0 auto; /* voorkom dat ze uitrekken */
   font-size: 28px;
   text-align: center;
-  border: 2px solid #8000ff !important;
+  border: 3px solid #8000ff !important;
   border-radius: 10px;
+  background-color: #F4D7F6;
   font-weight: bold;
   outline: none;
 }
