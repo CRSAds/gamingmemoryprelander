@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       const data = await res.json();
+      console.log("SubmitPin response:", data); // 👈 voeg deze regel toe
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
         return data.internalVisitId;
