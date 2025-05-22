@@ -20,8 +20,8 @@ function createCard(src) {
   const card = document.createElement('div');
   card.classList.add('card');
 card.innerHTML = `
-  <div class="front"><img src="assets/img/card-icon.png" alt=""></div>
-  <div class="back"><img src="assets/img/${src}" alt=""></div>
+  <div class="front"><img src="./assets/img/card-icon.png" alt=""></div>
+  <div class="back"><img src="./assets/img/${src}" alt=""></div>
 `;
   card.addEventListener('click', () => flipCard(card, src));
   return card;
