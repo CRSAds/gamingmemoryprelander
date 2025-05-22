@@ -38,16 +38,18 @@ body {
 .inputGrid {
   display: flex;
   gap: 12px;
-  justify-content: flex-start; /* links uitlijnen */
+  justify-content: flex-start;
   margin-bottom: 16px;
 }
 
 .pin-input {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
+  max-width: 64px;
+  flex: 0 0 auto; /* voorkom dat ze uitrekken */
   font-size: 28px;
   text-align: center;
-  border: 2px solid #8000ff !important; /* paarse rand */
+  border: 2px solid #8000ff !important;
   border-radius: 10px;
   font-weight: bold;
   outline: none;
