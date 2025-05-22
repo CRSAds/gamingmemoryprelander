@@ -55,10 +55,11 @@ function handleWin() {
   triggerConfetti();
 
   // Dynamisch query parameters meenemen naar de volgende pagina
-  const currentParams = window.location.search;
   const nextButton = document.getElementById('to-form-button');
   if (nextButton) {
-    nextButton.setAttribute('href', `formulier.html${currentParams}`);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.pathname = currentUrl.pathname.replace(/[^/]+$/, 'formulier');
+    nextButton.setAttribute('href', `${currentUrl.toString()}`);
   }
 }
 
