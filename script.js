@@ -16,7 +16,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  const t_id = urlParams.get("t_id") || getTransactionId();
+  const transaction_id = urlParams.get("t_id") || getTransactionId();
+
+  // Zet deze direct bij het starten van de pagina
+  localStorage.setItem("gameName", "MemoryGame");
+  localStorage.setItem("hero-image", "hero-placeholder.png");
 
   async function registerVisit() {
     const stored = localStorage.getItem("internalVisitId");
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
-            clickId: t_id,
+            clickId: transaction_id,
             affId,
             offerId,
             subId,
@@ -43,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
-        localStorage.setItem("t_id", t_id);
+        localStorage.setItem("t_id", transaction_id);
         localStorage.setItem("affId", affId);
         localStorage.setItem("offerId", offerId);
         localStorage.setItem("subId", subId);
@@ -80,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams({
-            clickId: t_id,
+            clickId: transaction_id,
             internalVisitId,
           }),
         });
@@ -153,15 +157,15 @@ document.addEventListener("DOMContentLoaded", function () {
             offerId,
             subId,
             internalVisitId: localStorage.getItem("internalVisitId"),
-            clickId: t_id,
+            clickId: transaction_id,
             pin,
-            gameName: "MemoryGame"
+            gameName: localStorage.getItem("gameName") || "MemoryGame"
           })
         });
         const data = await res.json();
 
         if (data.callId && data.returnUrl) {
-          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${t_id}`;
+          window.location.href = `${data.returnUrl}?call_id=${data.callId}&t_id=${transaction_id}`;
         } else {
           if (errorDisplay) errorDisplay.innerText = "Onjuiste pincode. Probeer het opnieuw.";
         }
