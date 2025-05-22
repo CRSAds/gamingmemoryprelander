@@ -27,56 +27,49 @@ body {
   background-color: #e37015;
 }
 
-/* PIN-knop voor desktop (overschrijft standaardstijl) */
-#submitPinButton {
-  background-color: #fe882b !important;
-  color: white !important;
-  font-weight: bold;
-  border: none !important;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: background-color 0.2s ease;
-}
-
-#submitPinButton:hover {
-  background-color: #e37015 !important;
-}
-
-/* PIN-weergave */
-.pin-box {
-  background-color: #f5c9ff;
-  font-size: 48px;
-  font-weight: 800;
-  padding: 16px 32px;
-  border-radius: 16px;
-  display: inline-block;
-  min-width: 160px;
-  text-align: center;
-  margin: 12px auto;
+/* PIN-weergave desktop */
+.ivr-section-desktop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 16px;
 }
 
 .inputGrid {
   display: flex;
-  gap: 16px;
-  justify-content: center;
-  margin: 16px 0;
+  gap: 12px;
+  margin: 0 0 12px 0;
+  justify-content: flex-start;
 }
 
-/* Kleinere invoervelden voor PIN */
-.inputGrid .pin-input {
-  width: 50px !important;
-  height: 50px !important;
-  font-size: 24px;
+.pin-input {
+  width: 60px;
+  height: 60px;
   text-align: center;
+  font-size: 32px;
   font-weight: bold;
-  border: 2px solid #ccc;
-  border-radius: 8px;
+  border: 2px solid #8000ff; /* paarse rand */
+  border-radius: 10px;
 }
 
-.error-input {
+#submitPinButton {
+  background-color: #fe882b;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 14px 32px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+#submitPinButton:hover {
+  background-color: #e37015;
+}
+
+.pin-error {
   color: red;
   margin-top: 8px;
 }
@@ -301,5 +294,13 @@ button[type="submit"]:hover {
 
   .only-desktop {
     display: none;
+  }
+
+  .ivr-section-desktop {
+    align-items: center;
+  }
+
+  .inputGrid {
+    justify-content: center;
   }
 }
