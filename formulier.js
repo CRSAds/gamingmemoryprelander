@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
 
     const urlParams = new URLSearchParams(window.location.search);
-    const transaction_id = urlParams.get('transaction_id') || '';
+
+    const t_id = urlParams.get('t_id') || crypto.randomUUID();
     const sub2 = urlParams.get('sub2') || '';
     const aff_id = urlParams.get('aff_id') || '';
     const offer_id = urlParams.get('offer_id') || '';
@@ -19,8 +20,18 @@ document.addEventListener('DOMContentLoaded', function () {
       dob_month: form.dob_month.value,
       dob_year: form.dob_year.value,
       email: form.email.value.trim(),
-      transaction_id
+      t_id
     };
+
+    // Save for later use in redirect
+    localStorage.setItem('t_id', t_id);
+    localStorage.setItem('aff_id', aff_id);
+    localStorage.setItem('offer_id', offer_id);
+    localStorage.setItem('sub_id', sub2);
+    localStorage.setItem('f_2_title', data.gender);
+    localStorage.setItem('f_3_firstname', data.firstname);
+    localStorage.setItem('f_4_lastname', data.lastname);
+    localStorage.setItem('f_1_email', data.email);
 
     try {
       const response = await fetch('https://gamingmemoryprelander.vercel.app/api/submit', {
@@ -37,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
           firstname: data.firstname,
           lastname: data.lastname,
           gender: data.gender,
-          transaction_id,
+          t_id,
           sub2,
           aff_id,
           offer_id
@@ -47,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentUrl.pathname = '/memoryspel/bedankt';
         currentUrl.search = redirectParams.toString();
         window.location.href = currentUrl.toString();
+
       } else {
         alert('Er is iets misgegaan. Probeer het opnieuw.');
         console.error(result);
