@@ -1,4 +1,3 @@
-
 /* Algemene opmaak */
 body {
   font-family: 'Montserrat', sans-serif;
@@ -28,6 +27,24 @@ body {
   background-color: #e37015;
 }
 
+/* PIN-knop voor desktop (overschrijft standaardstijl) */
+#submitPinButton {
+  background-color: #fe882b !important;
+  color: white !important;
+  font-weight: bold;
+  border: none !important;
+  padding: 14px 28px;
+  font-size: 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background-color 0.2s ease;
+}
+
+#submitPinButton:hover {
+  background-color: #e37015 !important;
+}
+
 /* PIN-weergave */
 .pin-box {
   background-color: #f5c9ff;
@@ -48,14 +65,15 @@ body {
   margin: 16px 0;
 }
 
-.pin-input {
-  width: 60px;
-  height: 60px;
+/* Kleinere invoervelden voor PIN */
+.inputGrid .pin-input {
+  width: 50px !important;
+  height: 50px !important;
+  font-size: 24px;
   text-align: center;
-  font-size: 32px;
   font-weight: bold;
   border: 2px solid #ccc;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 .error-input {
@@ -284,30 +302,4 @@ button[type="submit"]:hover {
   .only-desktop {
     display: none;
   }
-  /* VIP code invoer: compacter en stijlvoller */
-.inputGrid .pin-input {
-  width: 50px;
-  height: 50px;
-  font-size: 24px;
-  border-radius: 8px;
-  border: 2px solid #ccc;
-}
-
-/* Oranje pilvormige knop voor codebevestiging */
-#submitPinButton {
-  background-color: #fe882b;
-  color: white;
-  font-weight: bold;
-  border: none;
-  padding: 14px 28px;
-  font-size: 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  margin-top: 12px;
-  transition: background-color 0.2s ease;
-}
-
-#submitPinButton:hover {
-  background-color: #e37015;
-}
 }
