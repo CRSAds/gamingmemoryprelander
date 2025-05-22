@@ -41,9 +41,12 @@ document.getElementById('lead-form').addEventListener('submit', async function (
         offer_id
       });
 
-const redirectBase = "https://nl.wincadeaukaarten.com/memoryspel/bedankt";
-window.location.href = `${redirectBase}?${redirectParams.toString()}`;
-      
+      // Dynamisch de huidige host behouden, alleen pad aanpassen naar /memoryspel/bedankt
+      const currentUrl = new URL(window.location.href);
+      currentUrl.pathname = '/memoryspel/bedankt';
+      currentUrl.search = redirectParams.toString();
+      window.location.href = currentUrl.toString();
+
     } else {
       alert('Er is iets misgegaan. Probeer het opnieuw.');
       console.error(result);
