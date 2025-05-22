@@ -41,9 +41,9 @@ document.getElementById('lead-form').addEventListener('submit', async function (
         offer_id
       });
 
-      const currentPath = window.location.pathname;
-      const newPath = currentPath.replace('formulier', 'bedankt-en-betaling-ideal');
-      window.location.href = `${newPath}?${redirectParams.toString()}`;
+      const redirectBase = "https://nl.wincadeaukaarten.com/memory-lead-flow-development/bedankt-en-betaling-ideal";
+      window.location.href = `${redirectBase}?${redirectParams.toString()}`;
+      
     } else {
       alert('Er is iets misgegaan. Probeer het opnieuw.');
       console.error(result);
