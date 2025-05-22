@@ -41,7 +41,10 @@ document.getElementById("lead-form").addEventListener("submit", async function (
         offer_id,
       });
 
-      window.location.href = `https://nl.prijzen-winnaar.com/memory/bedankt-upsell?${redirectParams.toString()}`;
+      const currentUrl = new URL(window.location.href);
+currentUrl.pathname = currentUrl.pathname.replace(/[^/]+$/, 'bedankt');
+currentUrl.search = redirectParams.toString();
+window.location.href = currentUrl.toString();
     } else {
       alert("Er is iets misgegaan. Probeer het opnieuw.");
       console.error(result);
