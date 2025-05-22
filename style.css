@@ -47,7 +47,7 @@ body {
   height: 64px;
   max-width: 64px;
   flex: 0 0 auto; /* voorkom dat ze uitrekken */
-  font-size: 28px;
+  font-size: 40px;
   text-align: center;
   border: 3px solid #8000ff !important;
   border-radius: 10px;
