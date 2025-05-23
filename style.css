@@ -28,6 +28,7 @@
   grid-template-columns: repeat(4, minmax(80px, 1fr));
   gap: 16px;
   justify-content: center;
+  justify-items: center;
   max-width: 600px;
   margin: 0 auto;
   padding: 0;
