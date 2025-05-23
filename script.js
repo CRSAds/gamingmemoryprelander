@@ -17,35 +17,29 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   const transaction_id = urlParams.get("t_id") || getTransactionId();
-
-  localStorage.setItem("transaction_id", transaction_id);
+  localStorage.setItem("t_id", transaction_id);
   localStorage.setItem("aff_id", affId);
   localStorage.setItem("offer_id", offerId);
   localStorage.setItem("sub_id", subId);
 
   async function registerVisit() {
     const stored = localStorage.getItem("internalVisitId");
-    if (stored) {
-      return stored;
-    }
+    if (stored) return stored;
 
     try {
-      const res = await fetch(
-        "https://cdn.909support.com/NL/4.1/stage/assets/php/register_visit.php",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({
-            clickId: transaction_id,
-            affId,
-            offerId,
-            subId,
-            subId2: subId,
-          }),
-        }
-      );
-      const data = await res.json();
+      const res = await fetch("https://cdn.909support.com/NL/4.1/assets/php/register_visit.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          clickId: transaction_id,
+          affId,
+          offerId,
+          subId,
+          subId2: subId
+        })
+      });
 
+      const data = await res.json();
       if (data.internalVisitId) {
         localStorage.setItem("internalVisitId", data.internalVisitId);
         return data.internalVisitId;
@@ -66,6 +60,56 @@ document.addEventListener("DOMContentLoaded", function () {
   const desktopContainer = document.getElementById("pin-container-desktop");
   const desktopBox = document.getElementById("pin-code-display-desktop");
 
+  if (mobileBtn) {
+    mobileBtn.addEventListener("click", async function () {
+      mobileBtn.style.display = "none";
+      mobileContainer.style.display = "block";
+
+      try {
+        const internalVisitId = await visitPromise;
+        const pinRes = await fetch("https://cdn.909support.com/NL/4.1/stage/assets/php/request_pin.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            clickId: transaction_id,
+            internalVisitId
+          })
+        });
+        const pinData = await pinRes.json();
+        if (pinData.pincode) {
+          animatePinReveal(mobileBox, pinData.pincode);
+        }
+      } catch (err) {
+        console.warn("Mobiele IVR mislukt:", err);
+      }
+    });
+  }
+
+  if (desktopBtn) {
+    desktopBtn.addEventListener("click", async function () {
+      desktopBtn.style.display = "none";
+      desktopContainer.style.display = "block";
+
+      try {
+        const internalVisitId = await visitPromise;
+        const pinRes = await fetch("https://cdn.909support.com/NL/4.1/stage/assets/php/request_pin.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            clickId: transaction_id,
+            internalVisitId
+          })
+        });
+        const pinData = await pinRes.json();
+        if (pinData.pincode) {
+          animatePinReveal(desktopBox, pinData.pincode);
+        }
+      } catch (err) {
+        console.warn("Desktop IVR mislukt:", err);
+      }
+    });
+  }
+
   function animatePinReveal(el, finalPin) {
     let frame = 0;
     const duration = 1000;
@@ -81,47 +125,5 @@ document.addEventListener("DOMContentLoaded", function () {
         el.innerText = finalPin;
       }
     }, interval);
-  }
-
-  async function fetchPin() {
-    const internalVisitId = localStorage.getItem("internalVisitId");
-    const clickId = localStorage.getItem("transaction_id") || localStorage.getItem("t_id");
-
-    try {
-      const res = await fetch("https://cdn.909support.com/NL/4.1/stage/assets/php/request_pin.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams({
-          clickId,
-          internalVisitId,
-        }),
-      });
-
-      const pinData = await res.json();
-      return pinData.pincode;
-    } catch (err) {
-      console.warn("Pin ophalen mislukt:", err);
-      return null;
-    }
-  }
-
-  if (mobileBtn) {
-    mobileBtn.addEventListener("click", async function () {
-      mobileBtn.style.display = "none";
-      mobileContainer.style.display = "block";
-
-      const pin = await fetchPin();
-      if (pin) animatePinReveal(mobileBox, pin);
-    });
-  }
-
-  if (desktopBtn) {
-    desktopBtn.addEventListener("click", async function () {
-      desktopBtn.style.display = "none";
-      desktopContainer.style.display = "block";
-
-      const pin = await fetchPin();
-      if (pin) animatePinReveal(desktopBox, pin);
-    });
   }
 });
