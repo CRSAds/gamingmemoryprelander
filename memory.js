@@ -1,3 +1,4 @@
+console.log("memory.js geladen!");
 const icons = [
   'grape.png', 'grape.png',
   'cherries.png', 'cherries.png',
