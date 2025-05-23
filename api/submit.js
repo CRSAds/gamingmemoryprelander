@@ -1,83 +1,59 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const form = document.getElementById('lead-form');
-  if (!form) return;
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Of specifieker: 'https://nl.wincadeaukaarten.com'
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end(); // Preflight check OK
+  }
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    if (submitBtn.disabled) return; // voorkomt dubbele klik
-    submitBtn.disabled = true;
-    submitBtn.innerText = 'Versturen...';
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+  }
 
-    const urlParams = new URLSearchParams(window.location.search);
+  const {
+    gender,
+    firstname,
+    lastname,
+    dob_day,
+    dob_month,
+    dob_year,
+    email,
+    t_id
+  } = req.body;
 
-    const t_id = urlParams.get('t_id') || crypto.randomUUID();
-    const sub_id = urlParams.get('sub_id') || '';
-    const aff_id = urlParams.get('aff_id') || '';
-    const offer_id = urlParams.get('offer_id') || '';
+  const dob = `${dob_day.padStart(2, '0')}/${dob_month.padStart(2, '0')}/${dob_year}`;
+  const ipaddress = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
+  const now = new Date();
+  const optindate = now.toISOString().split('.')[0] + '+0000';
+  const campagne_url = req.headers.referer || '';
 
-    const data = {
-      gender: form.gender.value,
-      firstname: form.firstname.value.trim(),
-      lastname: form.lastname.value.trim(),
-      dob_day: form.dob_day.value,
-      dob_month: form.dob_month.value,
-      dob_year: form.dob_year.value,
-      email: form.email.value.trim(),
-      t_id
-    };
-
-    // Opslaan in localStorage
-    localStorage.setItem('t_id', t_id);
-    localStorage.setItem('aff_id', aff_id);
-    localStorage.setItem('offer_id', offer_id);
-    localStorage.setItem('sub_id', sub_id);
-    localStorage.setItem('f_2_title', data.gender);
-    localStorage.setItem('f_3_firstname', data.firstname);
-    localStorage.setItem('f_4_lastname', data.lastname);
-    localStorage.setItem('f_1_email', data.email);
-
-    try {
-      const response = await fetch('https://gamingmemoryprelander.vercel.app/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-
-      console.log("Response object:", response);
-      const result = await response.json();
-      console.log("Result JSON:", result);
-
-      if (result.success) {
-        const redirectParams = new URLSearchParams({
-          email: data.email,
-          firstname: data.firstname,
-          lastname: data.lastname,
-          gender: data.gender,
-          t_id,
-          sub_id,
-          aff_id,
-          offer_id
-        });
-
-        const currentUrl = new URL(window.location.href);
-        currentUrl.pathname = '/memoryspel/bedankt';
-        currentUrl.search = redirectParams.toString();
-        window.location.href = currentUrl.toString();
-
-      } else {
-        alert('Er is iets misgegaan. Probeer het opnieuw.');
-        console.error("API gaf geen success:", result);
-        submitBtn.disabled = false;
-        submitBtn.innerText = 'Ga Verder';
-      }
-
-    } catch (err) {
-      alert('Verbinding mislukt.');
-      console.error("Fout in fetch-blok:", err);
-      submitBtn.disabled = false;
-      submitBtn.innerText = 'Ga Verder';
-    }
+  const params = new URLSearchParams({
+    cid: '4885',
+    sid: '34',
+    f_2_title: gender,
+    f_3_firstname: firstname,
+    f_4_lastname: lastname,
+    f_1_email: email,
+    f_5_dob: dob,
+    f_17_ipaddress: ipaddress,
+    f_55_optindate: optindate,
+    f_1322_transaction_id: t_id,
+    f_1453_campagne_url: campagne_url
   });
-});
+
+  try {
+    const response = await fetch('https://crsadvertising.databowl.com/api/v1/lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+
+    const result = await response.json();
+
+    return res.status(200).json({ success: true, result });
+  } catch (error) {
+    console.error('Databowl error:', error);
+    return res.status(500).json({ success: false, message: 'Databowl request failed' });
+  }
+}
