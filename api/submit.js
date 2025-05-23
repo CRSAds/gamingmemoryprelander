@@ -24,7 +24,8 @@ export default async function handler(req, res) {
 
   const dob = `${dob_day.padStart(2, '0')}/${dob_month.padStart(2, '0')}/${dob_year}`;
   const ipaddress = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
-  const optindate = new Date().toISOString(); // ✅ ISO 8601: 2025-05-23T13:51:00Z
+  const now = new Date();
+  const optindate = now.toISOString().split('.')[0] + '+0000';
   const campagne_url = req.headers.referer || '';
 
   const params = new URLSearchParams({
