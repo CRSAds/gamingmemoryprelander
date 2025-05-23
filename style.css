@@ -1,116 +1,73 @@
-/* Algemene opmaak */
+/* Algemene layout */
 body {
   font-family: 'Montserrat', sans-serif;
-  padding: 0;
   margin: 0;
-}
-
-/* CTA-knoppen */
-.cta-button,
-.mobile-call-btn {
-  background-color: #fe882b;
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  font-size: 18px;
-  font-weight: 700;
-  border-radius: 999px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  margin-bottom: 16px;
-}
-
-.mobile-call-btn:hover,
-.cta-button:hover {
-  background-color: #e37015;
-}
-
-/* PIN-weergave */
-.pin-box {
-  background-color: #f5c9ff;
-  font-size: 48px;
-  font-weight: 800;
-  padding: 16px 32px;
-  border-radius: 16px;
-  display: inline-block;
-  min-width: 160px;
-  text-align: center;
-  margin: 12px auto;
-}
-
-.inputGrid {
+  padding: 0;
+  background: linear-gradient(to bottom right, #d173f2, #e8a4e4);
   display: flex;
-  gap: 12px;
-  justify-content: flex-start;
-  margin: 12px 0;
-}
-
-.pin-input {
-  width: 60px;
-  height: 60px;
-  text-align: center;
-  font-size: 32px;
-  font-weight: bold;
-  border: 3px solid purple;
-  border-radius: 10px;
-}
-
-.error-input {
-  color: red;
-  margin-top: 8px;
-}
-
-/* Memory game container */
-.game-container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  min-height: 100vh;
+}
+
+.game-container {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 720px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+h1 {
+  font-size: 1.8rem;
+  color: #4b0082;
+  margin-bottom: 16px;
 }
 
 /* Voortgangsbalk */
 .progress-bar {
   width: 100%;
-  max-width: 600px;
-  height: 16px;
+  height: 12px;
   background: #ccc;
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
   margin-bottom: 24px;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #e040fb, #ab47bc);
+  background: linear-gradient(to right, #e040fb, #ab47bc);
   width: 100%;
   transition: width linear;
 }
 
-/* 🔧 Game grid op desktop */
+/* Speelbord */
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
+  gap: 12px;
+  justify-content: center;
 }
 
-/* Kaarten */
+@media (max-width: 768px) {
+  .game-board {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .card {
   width: 100%;
   aspect-ratio: 1 / 1;
   background: transparent;
-  border-radius: 12px;
-  border: 4px solid #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  position: relative;
   transform-style: preserve-3d;
   transition: transform 0.4s ease;
   cursor: pointer;
+  position: relative;
+  border-radius: 12px;
+  border: 4px solid #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .card.flip {
@@ -127,15 +84,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 8px;
 }
 
 .card .front {
-  background-color: #001f3f; /* donkerblauw */
+  background-color: #001f3f;
 }
 
 .card .back {
-  background-color: #e0f7fa; /* lichtblauw */
+  background-color: #e0f7fa;
   transform: rotateY(180deg);
 }
 
@@ -145,7 +102,7 @@ body {
   object-fit: contain;
 }
 
-/* Overlay bij winst */
+/* Overlay */
 .overlay {
   position: absolute;
   top: 0;
@@ -159,38 +116,23 @@ body {
   z-index: 10;
 }
 
+.overlay.show {
+  display: flex;
+}
+
 .overlay-content {
   text-align: center;
 }
 
-/* Visibility toggles */
-.only-mobile {
-  display: none;
-}
-
-.only-desktop {
-  display: block;
-}
-
-/* 📱 Tablets */
-@media (max-width: 768px) {
-  .game-board {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 90vw;
-  }
-
-  .only-mobile {
-    display: block;
-  }
-
-  .only-desktop {
-    display: none;
-  }
-}
-
-/* 📱 Mobiele telefoons */
-@media (max-width: 480px) {
-  .game-board {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.cta-button {
+  background-color: #fe882b;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-top: 16px;
 }
