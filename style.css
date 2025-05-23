@@ -108,7 +108,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.85);
   display: none;
   justify-content: center;
   align-items: center;
@@ -120,7 +120,20 @@ body {
 }
 
 .overlay-content {
+  background: white;
+  padding: 32px;
+  border-radius: 16px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 20;
+}
+
+.overlay-content h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #4b0082;
 }
 
 .cta-button {
@@ -133,5 +146,37 @@ body {
   border-radius: 999px;
   cursor: pointer;
   text-decoration: none;
-  margin-top: 16px;
+  margin-top: 8px;
+  display: inline-block;
+}
+
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5; /* achter overlay-content */
+  pointer-events: none;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: hsl(var(--hue), 70%, 60%);
+  animation: confetti-fall 2.5s ease-out forwards;
+  opacity: 0.9;
+  border-radius: 50%;
+}
+
+@keyframes confetti-fall {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y)) rotate(360deg) scale(0.8);
+    opacity: 0;
+  }
 }
