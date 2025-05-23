@@ -19,12 +19,14 @@ export default async function handler(req, res) {
     dob_month,
     dob_year,
     email,
-    t_id // Let op: hier vervangen we transaction_id door t_id
+    t_id
   } = req.body;
 
   const dob = `${dob_day.padStart(2, '0')}/${dob_month.padStart(2, '0')}/${dob_year}`;
-  const ipaddress = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
-  const optindate = new Date().toISOString(); // ✅ correct format  const campagne_url = req.headers.referer || '';
+  const ipaddress = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
+  const optindate = new Date().toISOString(); // ✅ ISO 8601: 2025-05-23T13:51:00Z
+  const campagne_url = req.headers.referer || '';
+
   const params = new URLSearchParams({
     cid: '4885',
     sid: '34',
@@ -35,7 +37,7 @@ export default async function handler(req, res) {
     f_5_dob: dob,
     f_17_ipaddress: ipaddress,
     f_55_optindate: optindate,
-    f_1322_transaction_id: t_id, // hier gebruiken we t_id als waarde
+    f_1322_transaction_id: t_id,
     f_1453_campagne_url: campagne_url
   });
 
