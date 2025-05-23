@@ -1,32 +1,12 @@
-/* Algemene layout */
-body {
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(to bottom right, #d173f2, #e8a4e4);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+/* Alleen styling voor embedded memory game */
 
-.game-container {
+.game-inner {
   background: white;
   border-radius: 12px;
-  padding: 32px;
-  max-width: 720px;
-  width: 90%;
-  text-align: center;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  padding: 16px;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 1.8rem;
-  color: #4b0082;
-  margin-bottom: 16px;
-}
-
-/* Voortgangsbalk */
 .progress-bar {
   width: 100%;
   height: 12px;
@@ -43,17 +23,17 @@ h1 {
   transition: width linear;
 }
 
-/* Speelbord */
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(80px, 1fr));
   gap: 16px;
   justify-content: center;
-  margin: 0 auto;
   max-width: 600px;
-  padding: 16px;
+  margin: 0 auto;
+  padding: 0;
   box-sizing: border-box;
 }
+
 @media (max-width: 768px) {
   .game-board {
     grid-template-columns: repeat(3, minmax(80px, 1fr));
@@ -62,18 +42,18 @@ h1 {
 
 .card {
   width: 100%;
+  max-width: 120px;
   aspect-ratio: 1 / 1;
-  max-width: 130px;
-  position: relative;
-  perspective: 1000px; /* ⬅ belangrijk voor vloeiende flip */
-  will-change: transform; /* ⬅ hint aan browser om dit GPU-accelerated te doen */
+  background: transparent;
   transform-style: preserve-3d;
   transition: transform 0.4s ease;
   cursor: pointer;
+  position: relative;
   border-radius: 12px;
   border: 4px solid #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: block;
+  will-change: transform;
+  perspective: 1000px;
 }
 
 .card.flip {
@@ -83,24 +63,24 @@ h1 {
 .card .front,
 .card .back {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden; /* ⬅ nodig voor iOS Safari */
+  -webkit-backface-visibility: hidden;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-
 .card .front {
-  background-color: #e0f7fa; /* oog kant */
+  background-color: #e0f7fa;
 }
 
 .card .back {
-  background-color: #001f3f; /* fruit kant */
+  background-color: #001f3f;
   transform: rotateY(180deg);
 }
 
@@ -110,7 +90,6 @@ h1 {
   object-fit: contain;
 }
 
-/* Overlay */
 .overlay {
   position: absolute;
   top: 0;
