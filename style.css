@@ -42,7 +42,7 @@ body {
 
 @media (min-width: 768px) {
   .game-board {
-    grid-template-columns: repeat(4, 160px);
+    grid-template-columns: repeat(4, 150px);
   }
 }
 
