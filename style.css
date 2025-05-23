@@ -94,7 +94,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 12px;
   width: 100%;
-  max-width: 480px;
+  max-width: 600px;
   margin: 0 auto;
   box-sizing: border-box;
   padding: 12px;
@@ -102,8 +102,9 @@ body {
 
 /* Kaarten */
 .card {
-  aspect-ratio: 1 / 1;
   width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 130px; /* NIEUW: limiet voor desktop */
   background: white;
   border-radius: 10px;
   border: 4px solid #fff;
@@ -176,6 +177,16 @@ body {
 }
 
 /* Responsive visibility control */
+@media (max-width: 480px) {
+  .game-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .card {
+    max-width: none;
+    width: 100%;
+  }
+}
 @media (max-width: 768px) {
   .only-mobile {
     display: block;
