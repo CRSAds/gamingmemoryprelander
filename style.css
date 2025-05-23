@@ -207,20 +207,20 @@ body.thank-you {
 }
 
 .only-mobile {
-  display: none;
+  display: none !important;
 }
 
 .only-not-mobile {
-  display: block;
+  display: block !important;
 }
 
 @media (max-width: 767px) {
   .only-mobile {
-    display: block;
+    display: block !important;
   }
 
   .only-not-mobile {
-    display: none;
+    display: none !important;
   }
 }
 
