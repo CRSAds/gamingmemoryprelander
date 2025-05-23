@@ -14,8 +14,7 @@ body {
 }
 
 .progress-bar {
-  width: 60%;
-  align: center;
+  width: 100%;
   height: 12px;
   background: #ccc;
   border-radius: 6px;
@@ -32,8 +31,8 @@ body {
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, 100px); /* vaste breedte per kolom */
-  gap: 20px;
+  grid-template-columns: repeat(3, minmax(80px, 1fr));
+  gap: 12px;
   justify-content: center;
   justify-items: center;
   align-items: center;
@@ -41,15 +40,14 @@ body {
   padding: 0;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .game-board {
-    grid-template-columns: repeat(3, minmax(80px, 1fr));
+    grid-template-columns: repeat(4, 100px);
   }
 }
 
 .card {
-  width: 160px;
-  max-width: 160px;
+  width: 100%;
   aspect-ratio: 1 / 1;
   background: transparent;
   transform-style: preserve-3d;
@@ -65,7 +63,8 @@ body {
 
 @media (min-width: 768px) {
   .card {
-    max-width: 120px;
+    width: 100px;
+    height: 100px;
   }
 }
 
