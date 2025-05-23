@@ -53,7 +53,8 @@ function flipCard(card, src) {
 function handleWin() {
   clearInterval(timerInterval);
   overlay.classList.add('show');
-
+  triggerConfetti(); // 🎉 voeg dit toe!
+  
   const nextButton = document.getElementById('to-form-button');
   if (nextButton) {
     const currentUrl = new URL(window.location.href);
