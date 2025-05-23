@@ -32,12 +32,13 @@ body {
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(80px, 1fr));
-  gap: 12px 12px;
-  justify-content: space-evenly;
+  gap: 12px;
+  justify-content: center;
   justify-items: center;
+  align-items: center;
   max-width: 100%;
   width: 100%;
-  padding: 0 16px 0 16px;
+  padding: 0 16px;
   box-sizing: border-box;
   margin: 0 auto;
 }
