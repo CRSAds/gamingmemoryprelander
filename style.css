@@ -180,3 +180,71 @@ body {
     opacity: 0;
   }
 }
+/* Styling voor bedanktpagina */
+
+body.thank-you {
+  font-family: 'Montserrat', sans-serif;
+  padding: 32px;
+  background: linear-gradient(to bottom right, #fdfbfb, #ebedee);
+  color: #333;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+#thank-you-name {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #4b0082;
+  margin-bottom: 24px;
+}
+
+.only-mobile {
+  display: none;
+}
+
+.only-not-mobile {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .only-mobile {
+    display: block;
+  }
+
+  .only-not-mobile {
+    display: none;
+  }
+}
+
+.mobile-call-btn {
+  background-color: #fe882b;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  margin-top: 12px;
+}
+
+.pin-box {
+  background-color: #f5c9ff;
+  font-size: 48px;
+  font-weight: 800;
+  padding: 16px 32px;
+  border-radius: 16px;
+  display: inline-block;
+  min-width: 160px;
+  text-align: center;
+  margin: 12px auto;
+}
