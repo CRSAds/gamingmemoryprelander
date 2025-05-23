@@ -4,7 +4,9 @@
   background: white;
   border-radius: 12px;
   padding: 16px;
-  box-sizing: border-box;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
 }
 
 .progress-bar {
