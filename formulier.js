@@ -1,3 +1,7 @@
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.getElementById('lead-form');
+  if (!form) return;
+  
 form.addEventListener('submit', async function (e) {
   e.preventDefault();
 
