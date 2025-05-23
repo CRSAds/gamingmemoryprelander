@@ -35,48 +35,6 @@ body {
   padding: 16px;
 }
 
-.inputGrid {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-start;
-  margin-bottom: 0px;
-}
-
-.pin-input {
-  width: 64px;
-  height: 64px;
-  max-width: 64px;
-  flex: 0 0 auto; /* voorkom dat ze uitrekken */
-  font-size: 40px;
-  text-align: center;
-  border: 3px solid #8000ff !important;
-  border-radius: 10px;
-  background-color: #ffe8fb;
-  font-weight: bold;
-  outline: none;
-}
-
-#submitPinButton {
-  background-color: #fe882b;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  padding: 14px 32px;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  display: inline-block;
-  margin-top: 0px;
-}
-
-#submitPinButton:hover {
-  background-color: #e37015;
-}
-
-.pin-error {
-  color: red;
-  margin-top: 8px;
-}
 
 /* Memory game */
 .game-container {
