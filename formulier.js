@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn.disabled) return; // voorkomt dubbele klik
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Versturen...';
+
     const urlParams = new URLSearchParams(window.location.search);
 
     const t_id = urlParams.get('t_id') || crypto.randomUUID();
@@ -41,7 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       console.log("Response object:", response);
-
       const result = await response.json();
       console.log("Result JSON:", result);
 
@@ -61,14 +65,19 @@ document.addEventListener('DOMContentLoaded', function () {
         currentUrl.pathname = '/memoryspel/bedankt';
         currentUrl.search = redirectParams.toString();
         window.location.href = currentUrl.toString();
+
       } else {
         alert('Er is iets misgegaan. Probeer het opnieuw.');
         console.error("API gaf geen success:", result);
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Ga Verder';
       }
 
     } catch (err) {
       alert('Verbinding mislukt.');
       console.error("Fout in fetch-blok:", err);
+      submitBtn.disabled = false;
+      submitBtn.innerText = 'Ga Verder';
     }
   });
 });
