@@ -42,7 +42,7 @@ body {
 
 @media (min-width: 768px) {
   .game-board {
-    grid-template-columns: repeat(4, 100px);
+    grid-template-columns: repeat(4, 160px);
   }
 }
 
@@ -63,8 +63,8 @@ body {
 
 @media (min-width: 768px) {
   .card {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
   }
 }
 
