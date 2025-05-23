@@ -1,13 +1,13 @@
 // Handles PIN reveal on both mobile and desktop
 
-document.addEventListener('DOMContentLoaded', () => {
-  const mobileBtn = document.getElementById('show-pin-btn-mobile');
-  const mobileContainer = document.getElementById('pin-container-mobile');
-  const mobileDisplay = document.getElementById('pin-code-display-mobile');
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileBtn = document.getElementById("show-pin-btn-mobile");
+  const mobileContainer = document.getElementById("pin-container-mobile");
+  const mobileDisplay = document.getElementById("pin-code-display-mobile");
 
-  const desktopBtn = document.getElementById('show-pin-btn-desktop');
-  const desktopContainer = document.getElementById('pin-container-desktop');
-  const desktopDisplay = document.getElementById('pin-code-display-desktop');
+  const desktopBtn = document.getElementById("show-pin-btn-desktop");
+  const desktopContainer = document.getElementById("pin-container-desktop");
+  const desktopDisplay = document.getElementById("pin-code-display-desktop");
 
   // Register visit on first load
   (async function registerVisit() {
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })();
 
   async function fetchPin() {
-    const clickId = localStorage.getItem('t_id') || localStorage.getItem('transaction_id');
+    const clickId = localStorage.getItem('_t_id') || localStorage.getItem('transaction_id');
     const internalVisitId = localStorage.getItem('internalVisitId');
     if (!clickId || !internalVisitId) return null;
 
@@ -46,27 +46,26 @@ document.addEventListener('DOMContentLoaded', () => {
   function animatePinReveal(el, pin) {
     if (!el) return;
     el.textContent = '';
-    [...pin].forEach((char, i) => {
+    pin.toString().split('').forEach((char, i) => {
       setTimeout(() => {
         el.textContent += char;
       }, i * 200);
     });
   }
 
-  function handleReveal(container, display) {
+  function handlePinReveal(container, display) {
     return async () => {
       const pin = await fetchPin();
-      if (!pin) return;
       container.style.display = 'block';
-      animatePinReveal(display, pin);
+      animatePinReveal(display, pin || '000');
     };
   }
 
   if (mobileBtn && mobileContainer && mobileDisplay) {
-    mobileBtn.addEventListener('click', handleReveal(mobileContainer, mobileDisplay));
+    mobileBtn.addEventListener("click", handlePinReveal(mobileContainer, mobileDisplay));
   }
 
   if (desktopBtn && desktopContainer && desktopDisplay) {
-    desktopBtn.addEventListener('click', handleReveal(desktopContainer, desktopDisplay));
+    desktopBtn.addEventListener("click", handlePinReveal(desktopContainer, desktopDisplay));
   }
 });
