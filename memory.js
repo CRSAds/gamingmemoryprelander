@@ -1,4 +1,5 @@
 console.log("memory.js geladen!");
+
 const icons = [
   'grape.png', 'grape.png',
   'cherries.png', 'cherries.png',
@@ -18,7 +19,6 @@ let timeLimit = 90;
 let timeLeft = timeLimit;
 
 function createCard(src) {
-  console.log("Kaart maken voor:", src); // <--- Voeg dit toe
   const card = document.createElement('div');
   card.classList.add('card');
   card.innerHTML = `
@@ -54,19 +54,18 @@ function handleWin() {
   clearInterval(timerInterval);
   overlay.style.display = 'flex';
   overlay.classList.add('show');
-  triggerConfetti();
 
-  // Dynamisch query parameters meenemen naar de volgende pagina
   const nextButton = document.getElementById('to-form-button');
   if (nextButton) {
     const currentUrl = new URL(window.location.href);
     currentUrl.pathname = currentUrl.pathname.replace(/[^/]+$/, 'formulier');
     nextButton.setAttribute('href', `${currentUrl.toString()}`);
   }
+
+  triggerConfetti();
 }
 
 function startGame() {
-  console.log("Start spel"); // <--- Voeg toe
   board.innerHTML = '';
   matched = 0;
   flipped = [];
@@ -76,7 +75,6 @@ function startGame() {
   overlay.style.display = 'none';
 
   const cards = shuffle([...icons]);
-  console.log("Aantal kaarten:", cards.length); // <--- Voeg toe
   cards.forEach(icon => board.appendChild(createCard(icon)));
 
   timerInterval = setInterval(() => {
@@ -122,6 +120,7 @@ function triggerConfetti() {
   }
 }
 
-  if (board && overlay) {
-    startGame();
-  }
+// ✅ Start het spel zodra de pagina klaar is (defer garandeert dat DOM beschikbaar is)
+if (board && overlay) {
+  startGame();
+}
