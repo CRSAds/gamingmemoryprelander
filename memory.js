@@ -18,6 +18,7 @@ let timeLimit = 90;
 let timeLeft = timeLimit;
 
 function createCard(src) {
+  console.log("Kaart maken voor:", src); // <--- Voeg dit toe
   const card = document.createElement('div');
   card.classList.add('card');
   card.innerHTML = `
@@ -65,6 +66,7 @@ function handleWin() {
 }
 
 function startGame() {
+  console.log("Start spel"); // <--- Voeg toe
   board.innerHTML = '';
   matched = 0;
   flipped = [];
@@ -74,6 +76,7 @@ function startGame() {
   overlay.style.display = 'none';
 
   const cards = shuffle([...icons]);
+  console.log("Aantal kaarten:", cards.length); // <--- Voeg toe
   cards.forEach(icon => board.appendChild(createCard(icon)));
 
   timerInterval = setInterval(() => {
