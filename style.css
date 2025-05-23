@@ -32,8 +32,8 @@ body {
 .game-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(80px, 1fr));
-  gap: 16px;
-  justify-content: center;
+  gap: 12px 12px;
+  justify-content: space-evenly;
   justify-items: center;
   max-width: 100%;
   width: 100%;
