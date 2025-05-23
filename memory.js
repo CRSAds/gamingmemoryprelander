@@ -118,7 +118,6 @@ function triggerConfetti() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
   if (board && overlay) {
     startGame();
   }
