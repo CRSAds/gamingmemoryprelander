@@ -224,16 +224,17 @@ body.thank-you {
   }
 }
 
-.mobile-call-btn {
+.cta-button {
   background-color: #fe882b;
   color: white;
-  padding: 12px 20px;
-  border-radius: 999px;
-  font-weight: bold;
+  padding: 12px 24px;
   font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
   text-decoration: none;
   display: inline-block;
-  text-align: center;
   margin-top: 12px;
 }
 
@@ -246,5 +247,18 @@ body.thank-you {
   display: inline-block;
   min-width: 160px;
   text-align: center;
-  margin: 12px auto;
+  margin: 16px auto;
+}
+
+.mobile-call-btn {
+  background-color: #fe882b;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 18px;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  margin-top: 12px;
 }
