@@ -92,3 +92,30 @@ function updateProgress() {
 if (board && overlay) {
   startGame();
 }
+
+function triggerConfetti() {
+  const container = document.getElementById('confetti-container');
+  const origin = document.querySelector('.overlay-content');
+  const originRect = origin.getBoundingClientRect();
+  const centerX = origin.offsetLeft + origin.offsetWidth / 2;
+  const centerY = origin.offsetTop + origin.offsetHeight / 2;
+
+  for (let i = 0; i < 120; i++) {
+    const el = document.createElement('div');
+    el.classList.add('confetti');
+    el.style.setProperty('--hue', Math.floor(Math.random() * 360));
+
+    const angle = Math.random() * 2 * Math.PI;
+    const radius = 150 + Math.random() * 200;
+    const x = Math.cos(angle) * radius + 'px';
+    const y = Math.sin(angle) * radius + 'px';
+
+    el.style.setProperty('--x', x);
+    el.style.setProperty('--y', y);
+    el.style.left = `${centerX}px`;
+    el.style.top = `${centerY}px`;
+
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  }
+}
