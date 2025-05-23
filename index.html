@@ -9,15 +9,13 @@
   <body>
     <!-- DESKTOP sectie -->
     <div class="ivr-section-desktop only-desktop">
-      <p><strong>Bel 0906 - 0814 en voer jouw VIP-code in:</strong></p>
-      <div class="inputGrid">
-        <input type="text" class="pin-input" id="input1" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
-        <input type="text" class="pin-input" id="input2" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
-        <input type="text" class="pin-input" id="input3" maxlength="1" inputmode="numeric" pattern="[0-9]*" />
+      <button id="show-pin-btn-desktop" class="cta-button">Toon mijn VIP-code</button>
+      <div id="pin-container-desktop" style="display: none;">
+        <p class="ivr-instructie only-desktop">
+          <strong>Bel 0906 - 0814 en voer jouw VIP-code in</strong>
+        </p>
+        <div id="pin-code-display-desktop" class="pin-box">000</div>
       </div>
-      <input type="hidden" id="pinCode" />
-      <div id="pin-error" class="error-input"></div>
-      <button id="submitPinButton" class="cta-button">Bevestig je code</button>
     </div>
 
     <!-- MOBIEL sectie -->
