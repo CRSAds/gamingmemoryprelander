@@ -57,9 +57,10 @@ function handleWin() {
   
   const nextButton = document.getElementById('to-form-button');
   if (nextButton) {
-    const currentUrl = new URL(window.location.href);
-    currentUrl.pathname = currentUrl.pathname.replace(/[^/]+$/, 'formulier');
-    nextButton.setAttribute('href', `${currentUrl.toString()}`);
+      const currentUrl = new URL(window.location.href);
+      const basePath = currentUrl.pathname.replace(/[^/]+$/, 'formulier');
+      const params = currentUrl.search;
+      nextButton.setAttribute('href', `${basePath}${params}`);
   }
 }
 
