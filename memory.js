@@ -122,4 +122,3 @@ function triggerConfetti() {
   if (board && overlay) {
     startGame();
   }
-});
