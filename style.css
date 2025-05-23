@@ -1,5 +1,9 @@
 /* Alleen styling voor embedded memory game */
 
+body {
+  overflow-x: hidden;
+}
+
 .game-inner {
   background: white;
   border-radius: 12px;
@@ -31,10 +35,11 @@
   gap: 16px;
   justify-content: center;
   justify-items: center;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0;
+  max-width: 100%;
+  width: 100%;
+  padding: 0 16px;
   box-sizing: border-box;
+  margin: 0 auto;
 }
 
 @media (max-width: 768px) {
@@ -45,7 +50,7 @@
 
 .card {
   width: 100%;
-  max-width: 120px;
+  max-width: 100%;
   aspect-ratio: 1 / 1;
   background: transparent;
   transform-style: preserve-3d;
